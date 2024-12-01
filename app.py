@@ -5,7 +5,17 @@ import plotly.express as px
 
 st.set_page_config(page_title="Notes 2LM", page_icon=":bar_chart:")
 csv_file_path = st.secrets['csv_file_path']
-
+# CSS pour cacher l'icône de GitHub
+st.markdown(
+    """
+    <style>
+    .stApp .main-header a {
+        display: none !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 #csv_file_path ='notes.csv'
 # Chargement du fichier CSV en nettoyant les espaces dans la colonne Email
 df = pd.read_csv(csv_file_path, delimiter=",", converters={"Email": lambda x: x.strip()})
