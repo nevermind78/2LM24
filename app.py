@@ -118,15 +118,37 @@ with st.expander("Afficher/Masquer les statistiques des groupes"):
 
     if groupe_selectionne:
         # Filtrer les données pour le groupe sélectionné
-        df_Gr = df[df["GR"] == groupe_selectionne]
-        
-        # Afficher les statistiques des résultats du groupe sélectionné
-        st.subheader(f"Statistiques des résultats pour le groupe {groupe_selectionne}")
-        stats_notesDS = df_Gr["Catégorie de notes DS"].value_counts()
-        
-        # Créer un graphique en secteurs (Pie chart) avec Plotly
-        figds = px.pie(values=stats_notesDS, names=stats_notesDS.index, 
-                       title=f"Répartition des notes DS du groupe {groupe_selectionne}", 
-                       width=400, height=400)
-        st.plotly_chart(figds)
+        df_groupe = df[df["GR"] == groupe_selectionne]
+        # Statistiques du groupe
+        moyenne = df_groupe["DS"].mean()
+        variance = df_groupe["DS"].var()
+        ecart_type = df_groupe["DS"].std()
 
+        # Affichage des statistiques
+        col1, col2 = st.columns(2)
+        with col2:
+            # Boxplot
+            fig_box = px.box(df_groupe, y="DS", points="all", title="Boxplot des notes DS")
+            st.plotly_chart(fig_box, use_container_width=True)
+            st.write(f"- **Moyenne** : {moyenne:.2f}")
+            st.write(f"- **Variance** : {variance:.2f}")
+            st.write(f"- **Écart-type** : {ecart_type:.2f}")
+
+        # Graphiques
+        with col1:
+            fig_pie = px.pie(df_groupe, names="Catégorie de notes DS", title="Répartition des catégories")
+            st.plotly_chart(fig_pie, use_container_width=True)
+            fig_hist = px.histogram(
+            df_groupe,
+            x="DS",
+            nbins=10,  # Vous pouvez ajuster le nombre de bins
+            title="Histogramme des notes DS",
+            labels={"DS": "Notes DS"},
+            color_discrete_sequence=["#636EFA"],
+            )
+            fig_hist.update_layout(bargap=0.2)  # Ajuste l'espace entre les barres
+            st.plotly_chart(fig_hist, use_container_width=True)
+
+
+            
+            
