@@ -67,7 +67,7 @@ st.markdown(
 
 # Champ de saisie pour l'email de l'étudiant avec une classe personnalisée
 email = st.text_input("Saisissez votre email", key="email_input", label_visibility="visible", placeholder="Exemple: nom@example.com")
-
+email= email.lower()
 # Appliquer la classe personnalisée pour changer le style
 st.markdown(
     """
