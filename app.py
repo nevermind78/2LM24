@@ -2,8 +2,16 @@ import streamlit as st
 import pandas as pd
 import os 
 import plotly.express as px
-
 st.set_page_config(page_title="Notes 2LM", page_icon=":bar_chart:")
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 csv_file_path = st.secrets['csv_file_path']
 # CSS pour cacher l'icône de GitHub
 st.markdown(
